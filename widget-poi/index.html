@@ -3,30 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Widget Lugares Cercanos (OSM)</title>
+  <title>Lugares Cercanos - Torres Santa Catalina</title>
 
-  <!-- Leaflet CSS -->
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-    crossorigin=""
-  />
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <!-- Fuente principal -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
   <!-- Estilos propios -->
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div id="app">
-    <!-- ===== ENCABEZADO ===== -->
-    <header class="app-header">
-      <h1>🧭 Lugares cercanos (500 m)</h1>
-      <p>Explora los servicios disponibles alrededor de tu ubicación</p>
-    </header>
+  <header class="topbar">
+    <div class="logo">
+      <img src="logo.png" alt="Logo Torres Santa Catalina">
+    </div>
+    <div class="title">
+      <span>Lugares cercanos (500 m)</span>
+    </div>
+  </header>
 
-    <!-- ===== PANEL LATERAL ===== -->
+  <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+
+  <div id="app">
+    <!-- PANEL LATERAL -->
     <aside class="sidebar">
-      
+      <p class="info">
+        🧭 Explora los servicios disponibles alrededor de tu ubicación.  
+        Marca o desmarca las categorías para visualizar los puntos en el mapa.
+      </p>
 
       <div class="row categories">
         <label><input type="checkbox" value="school" checked><span>Escuelas/Colegios</span></label>
@@ -39,28 +45,19 @@
         <label><input type="checkbox" value="supermarket" checked><span>Super/Tiendas</span></label>
         <label><input type="checkbox" value="bus_stop" checked><span>Paradas de bus</span></label>
       </div>
-
     </aside>
 
-    <!-- ===== MAPA PRINCIPAL ===== -->
+    <!-- MAPA -->
     <main id="map"></main>
   </div>
 
-  <!-- ===== SCRIPTS ===== -->
-  <script
-    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-    crossorigin=""
-  ></script>
+  <!-- Scripts -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="app.js"></script>
-
-  <button class="menu-toggle" onclick="toggleMenu()">☰</button>
   <script>
-  function toggleMenu() {
-    const sidebar = document.querySelector('.sidebar');
-    sidebar.classList.toggle('active');
-  }
+    function toggleMenu() {
+      document.querySelector('.sidebar').classList.toggle('active');
+    }
   </script>
-
 </body>
 </html>
