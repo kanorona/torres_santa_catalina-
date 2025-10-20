@@ -51,13 +51,24 @@
     <main id="map"></main>
   </div>
 
-  <!-- Scripts -->
+    <!-- Scripts -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="app.js"></script>
   <script>
+    const sidebar = document.querySelector('.sidebar');
+    const mapArea = document.getElementById('map');
+
     function toggleMenu() {
-      document.querySelector('.sidebar').classList.toggle('active');
+      sidebar.classList.toggle('active');
     }
+
+    // Cerrar el panel si se hace clic fuera (en el mapa)
+    mapArea.addEventListener('click', () => {
+      if (sidebar.classList.contains('active')) {
+        sidebar.classList.remove('active');
+      }
+    });
   </script>
+
 </body>
 </html>
