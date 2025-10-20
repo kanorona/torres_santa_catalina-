@@ -14,7 +14,12 @@
   --texto:#fff;
   --texto-secundario:#cfcfcf;
 }
-html,body{height:100%;margin:0;font-family:'Poppins',Arial,sans-serif;background:var(--fondo);color:var(--texto);display:flex;flex-direction:column}
+html,body{
+  height:100%;margin:0;
+  font-family:'Poppins',Arial,sans-serif;
+  background:var(--fondo);color:var(--texto);
+  display:flex;flex-direction:column;
+}
 
 /* HEADER */
 header{
@@ -24,38 +29,59 @@ header{
   box-shadow:0 2px 6px rgba(0,0,0,.4);
 }
 header img{height:42px;margin-right:12px}
-header h1{font-size:18px;color:var(--color-primario);margin:0;font-weight:600;flex:1}
+header h1{
+  font-size:18px;color:var(--color-primario);
+  margin:0;font-weight:600;flex:1;
+}
 #btn-menu{
   display:none;background:none;border:none;color:var(--texto);
-  font-size:28px;cursor:pointer;
+  font-size:30px;cursor:pointer;position:absolute;
+  right:15px;top:50%;transform:translateY(-50%);
+  padding:8px;z-index:1500;
 }
 
 /* ESTRUCTURA PRINCIPAL */
-.content{display:flex;flex:1;height:calc(100vh - 65px);margin-top:65px;overflow:hidden}
-.main{flex:3;background:#000;display:flex;align-items:center;justify-content:center}
+.content{
+  display:flex;flex:1;height:calc(100vh - 65px);
+  margin-top:65px;overflow:hidden;
+}
+.main{
+  flex:3;background:#000;display:flex;
+  align-items:center;justify-content:center;
+}
 .main iframe{width:100%;height:100%;border:none;overflow:hidden}
 .sidebar{
-  flex:1;background:var(--panel);padding:15px;height:100%;overflow-y:auto;
-  scrollbar-width:thin;scrollbar-color:var(--color-primario)#1b1b1b;
+  flex:1;background:var(--panel);padding:15px;height:100%;
+  overflow-y:auto;scrollbar-width:thin;
+  scrollbar-color:var(--color-primario)#1b1b1b;
   transition:transform 0.4s ease-in-out;
 }
 .sidebar::-webkit-scrollbar{width:8px}
-.sidebar::-webkit-scrollbar-thumb{background-color:var(--color-primario);border-radius:4px}
+.sidebar::-webkit-scrollbar-thumb{
+  background-color:var(--color-primario);border-radius:4px;
+}
 
 /* Widgets */
 .widget{
-  background:var(--widget);border-radius:12px;padding:15px;margin-bottom:15px;
-  box-shadow:0 4px 10px rgba(0,0,0,.3);transition:transform .3s,box-shadow .3s;
+  background:var(--widget);border-radius:12px;
+  padding:15px;margin-bottom:15px;
+  box-shadow:0 4px 10px rgba(0,0,0,.3);
+  transition:transform .3s,box-shadow .3s;
 }
-.widget:hover{transform:translateY(-2px);box-shadow:0 8px 15px rgba(0,0,0,.4)}
+.widget:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 15px rgba(0,0,0,.4);
+}
 .widget h2,.widget h3{
   font-size:15px;margin:0 0 10px;color:var(--texto);
-  background:rgba(0,0,0,.4);padding:6px 10px;border-radius:6px;text-transform:uppercase;
+  background:rgba(0,0,0,.4);padding:6px 10px;
+  border-radius:6px;text-transform:uppercase;
 }
 
 /* Imágenes */
 .plano img,.galeria .grid img{
-  width:100%;border-radius:8px;cursor:pointer;transition:transform .3s;
+  width:100%;border-radius:8px;cursor:pointer;
+  transition:transform .3s;
 }
 .plano img:hover,.galeria .grid img:hover{transform:scale(1.01)}
 
@@ -67,8 +93,9 @@ header h1{font-size:18px;color:var(--color-primario);margin:0;font-weight:600;fl
 .lugares ul{list-style:none;padding:0;margin:0 0 10px;font-size:14px}
 .lugares li{margin:6px 0;color:var(--texto-secundario)}
 .btn-vermas{
-  width:100%;padding:10px;border:none;border-radius:8px;background:var(--color-primario);
-  color:#fff;font-size:14px;cursor:pointer;transition:background .3s;
+  width:100%;padding:10px;border:none;border-radius:8px;
+  background:var(--color-primario);color:#fff;
+  font-size:14px;cursor:pointer;transition:background .3s;
 }
 .btn-vermas:hover{background:var(--color-secundario)}
 
@@ -81,29 +108,74 @@ header h1{font-size:18px;color:var(--color-primario);margin:0;font-weight:600;fl
   justify-content:center;align-items:center;z-index:9999;
 }
 #visor img,#visor-plano img{
-  max-width:85%;max-height:85%;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.5);
+  max-width:85%;max-height:85%;border-radius:12px;
+  box-shadow:0 4px 20px rgba(0,0,0,.5);
   animation:zoomIn .3s ease;
 }
 @keyframes zoomIn{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
 
 /* Widget BIM */
-#widget-bim{background:rgba(30,30,30,.95);padding:10px;border-radius:12px;box-shadow:0 0 8px rgba(0,0,0,.3)}
-.bim-controls{display:flex;justify-content:center;gap:8px;margin-top:6px}
+#widget-bim{
+  background:rgba(30,30,30,.95);padding:10px;border-radius:12px;
+  box-shadow:0 0 8px rgba(0,0,0,.3);
+}
+.bim-controls{
+  display:flex;justify-content:center;gap:8px;margin-top:6px;
+}
 .bim-controls button{
-  background:#444;color:#fff;border:none;padding:5px 10px;border-radius:6px;
+  background:#444;color:#fff;border:none;
+  padding:5px 10px;border-radius:6px;
   cursor:pointer;transition:background .3s;
 }
 .bim-controls button:hover{background:#666}
 
 /* Modal fullscreen BIM */
-#modal-bim{
-  display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);
-  justify-content:center;align-items:center;z-index:10000;
+#modal-bim {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.96);
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
 }
-#modal-bim model-viewer{width:90%;height:80%;border-radius:12px;background:#222}
-#modal-bim button{
-  position:absolute;top:20px;right:25px;background:none;border:none;
-  font-size:26px;color:#fff;cursor:pointer;
+#modal-bim model-viewer {
+  width: 90%;
+  height: 80%;
+  border-radius: 12px;
+  background: #222;
+  z-index: 10001;
+}
+#btnCerrarBIM {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.65);
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 52px;
+  height: 52px;
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  z-index: 20000; /* 👈 fuerza visibilidad por encima del model-viewer */
+}
+#btnCerrarBIM:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+#btnCerrarBIM span {
+  position: absolute;
+  bottom: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 13px;
+  color: #fff;
+  opacity: 0.9;
+  text-shadow: 0 0 4px #000;
 }
 
 /* RESPONSIVE */
@@ -111,13 +183,16 @@ header h1{font-size:18px;color:var(--color-primario);margin:0;font-weight:600;fl
   #btn-menu{display:block}
   .content{flex-direction:row}
   .sidebar{
-    position:fixed;top:65px;right:0;width:70%;max-width:350px;height:calc(100vh - 65px);
-    transform:translateX(100%);z-index:1200;
+    position:fixed;top:65px;right:0;width:70%;
+    max-width:350px;height:calc(100vh - 65px);
+    transform:translateX(100%);
+    z-index:1200;
   }
   .sidebar.active{transform:translateX(0)}
   /* overlay oscuro */
   #overlay{
-    display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);
+    display:none;position:fixed;inset:0;
+    background:rgba(0,0,0,.4);
     z-index:1100;backdrop-filter:blur(2px);
   }
   #overlay.show{display:block}
@@ -126,8 +201,7 @@ header h1{font-size:18px;color:var(--color-primario);margin:0;font-weight:600;fl
 </head>
 <body>
 <header>
-  <img src="imagenes/logo_torres.png" alt="Logo Torres Santa Catalina">
-  <h1>Torres Santa Catalina</h1>
+  <img src="imagenes/logo.png" alt="Logo Torres Santa Catalina">
   <button id="btn-menu">☰</button>
 </header>
 
@@ -205,9 +279,12 @@ header h1{font-size:18px;color:var(--color-primario);margin:0;font-weight:600;fl
 
 <!-- Modal BIM -->
 <div id="modal-bim">
-  <button onclick="cerrarModalBIM()">✖</button>
-  <model-viewer src="static/models/casa.glb" camera-controls auto-rotate
-                shadow-intensity="1" exposure="0.9"
+  <button id="btnCerrarBIM">✖<span>Cerrar</span></button>
+  <model-viewer src="static/models/casa.glb"
+                camera-controls
+                auto-rotate
+                shadow-intensity="1"
+                exposure="0.9"
                 environment-image="neutral"
                 style="width:100%;height:100%;border-radius:12px;background:#222;">
   </model-viewer>
@@ -218,7 +295,6 @@ header h1{font-size:18px;color:var(--color-primario);margin:0;font-weight:600;fl
 const sidebar=document.getElementById('sidebar');
 const overlay=document.getElementById('overlay');
 const menuBtn=document.getElementById('btn-menu');
-
 menuBtn.addEventListener('click',()=>{
   sidebar.classList.toggle('active');
   overlay.classList.toggle('show');
@@ -228,20 +304,43 @@ overlay.addEventListener('click',()=>{
   overlay.classList.remove('show');
 });
 
-/* Modal para modelo BIM */
-const modalBIM=document.getElementById('modal-bim');
-document.getElementById('btnExpandirBIM').addEventListener('click',()=>{
-  modalBIM.style.display='flex';
-});
-function cerrarModalBIM(){modalBIM.style.display='none';}
+  /* Modal BIM */
+  document.addEventListener('DOMContentLoaded', () => {
+    const modalBIM = document.getElementById('modal-bim');
+    const btnExpandirBIM = document.getElementById('btnExpandirBIM');
+    const btnCerrarBIM = document.getElementById('btnCerrarBIM');
+
+    if (btnExpandirBIM && modalBIM) {
+      btnExpandirBIM.addEventListener('click', () => {
+        modalBIM.style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // 🔒 evita desplazamiento del fondo
+      });
+    }
+
+    if (btnCerrarBIM && modalBIM) {
+      btnCerrarBIM.addEventListener('click', () => {
+        modalBIM.style.display = 'none';
+        document.body.style.overflow = 'auto'; // 🔓 restaura scroll del fondo
+      });
+    }
+  });
+
 
 /* Lightbox galería y plano */
-function abrir(img){document.getElementById('visor').style.display='flex';
-  document.getElementById('visor-img').src=img.src;}
-function cerrar(){document.getElementById('visor').style.display='none';}
-function abrirPlano(img){document.getElementById('visor-plano').style.display='flex';
-  document.getElementById('visor-plano-img').src=img.src;}
-function cerrarPlano(){document.getElementById('visor-plano').style.display='none';}
+function abrir(img){
+  document.getElementById('visor').style.display='flex';
+  document.getElementById('visor-img').src=img.src;
+}
+function cerrar(){
+  document.getElementById('visor').style.display='none';
+}
+function abrirPlano(img){
+  document.getElementById('visor-plano').style.display='flex';
+  document.getElementById('visor-plano-img').src=img.src;
+}
+function cerrarPlano(){
+  document.getElementById('visor-plano').style.display='none';
+}
 </script>
 </body>
 </html>
