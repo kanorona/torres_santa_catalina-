@@ -53,5 +53,14 @@
     crossorigin=""
   ></script>
   <script src="app.js"></script>
+
+  <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+  <script>
+  function toggleMenu() {
+    const sidebar = document.querySelector('.sidebar');
+    sidebar.classList.toggle('active');
+  }
+  </script>
+
 </body>
 </html>

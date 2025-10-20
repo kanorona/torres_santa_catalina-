@@ -2,18 +2,72 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Recorrido Virtual - Propiedad</title>
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #1b1b1b;
-      color: #eee;
-      display: flex;
-      height: 100vh;
+    :root {
+      --color-primario: #e4943a;
+      --color-secundario: #a05e37;
+      --fondo: #1b1b1b;
+      --panel: #242424;
+      --widget: #2d2d2d;
+      --texto: #ffffff;
+      --texto-secundario: #cfcfcf;
     }
 
-    /* Página principal */
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', Arial, sans-serif;
+      background: var(--fondo);
+      color: var(--texto);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 🔹 Encabezado superior */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 70px;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      padding: 0 30px;
+      z-index: 1000;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    }
+
+    header img {
+      height: 45px;
+      margin-right: 15px;
+    }
+
+    header h1 {
+      font-size: 20px;
+      color: var(--color-primario);
+      letter-spacing: 1px;
+      margin: 0;
+      font-weight: 600;
+    }
+
+    /* =====================
+       ESTRUCTURA PRINCIPAL
+       ===================== */
+    .content {
+      display: flex;
+      flex: 1;
+      height: calc(100vh - 70px);
+      margin-top: 70px;
+      overflow: hidden;
+    }
+
     .main {
       flex: 3;
       background: #000;
@@ -22,35 +76,76 @@
       justify-content: center;
     }
 
-    .sidebar {
-      flex: 1;
-      background: #242424;
-      overflow-y: auto;
-      padding: 15px;
+    .main iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      overflow: hidden;
     }
 
+    .sidebar {
+      flex: 1;
+      background: var(--panel);
+      padding: 15px;
+      height: 100%;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--color-primario) #1b1b1b;
+    }
+
+    .sidebar::-webkit-scrollbar {
+      width: 8px;
+    }
+    .sidebar::-webkit-scrollbar-thumb {
+      background-color: var(--color-primario);
+      border-radius: 4px;
+    }
+
+    /* =====================
+       WIDGETS
+       ===================== */
     .widget {
-      background: #2d2d2d;
+      background: var(--widget);
       border-radius: 12px;
       padding: 15px;
       margin-bottom: 15px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .widget h2 {
+    .widget:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.4);
+    }
+
+    .widget h2, .widget h3 {
       font-size: 16px;
       margin: 0 0 10px 0;
-      color: #fff;
+      color: var(--texto);
+      background: rgba(0, 0, 0, 0.4);
+      padding: 6px 10px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
-    /* Plano */
+    /* =====================
+       PLANO
+       ===================== */
     .plano img {
       width: 100%;
       border-radius: 8px;
       cursor: pointer;
+      transition: transform 0.3s ease;
     }
 
-    /* Ficha técnica */
+    .plano img:hover {
+      transform: scale(1.01);
+    }
+
+    /* =====================
+       FICHA TÉCNICA
+       ===================== */
     .ficha table {
       width: 100%;
       border-collapse: collapse;
@@ -61,7 +156,9 @@
       border-bottom: 1px solid #444;
     }
 
-    /* Lugares cercanos */
+    /* =====================
+       LUGARES CERCANOS
+       ===================== */
     .lugares ul {
       list-style: none;
       padding: 0;
@@ -70,55 +167,27 @@
     }
     .lugares li {
       margin: 6px 0;
+      color: var(--texto-secundario);
     }
+
     .btn-vermas {
       width: 100%;
       padding: 10px;
       border: none;
       border-radius: 8px;
-      background: #2d89ef;
+      background: var(--color-primario);
       color: #fff;
       font-size: 14px;
       cursor: pointer;
+      transition: background 0.3s;
     }
     .btn-vermas:hover {
-      background: #1b5fbf;
+      background: var(--color-secundario);
     }
 
-    /* Lightbox */
-    #visor {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.85);
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-    }
-    #visor img {
-      max-width: 80%;
-      max-height: 80%;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-    }
-
-    #visor-plano {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.85);
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-    }
-    #visor-plano img {
-      max-width: 80%;
-      max-height: 80%;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-    }
-
-    /* Galería */
+    /* =====================
+       GALERÍA
+       ===================== */
     .galeria h2 {
       display: block;
       width: 100%;
@@ -133,9 +202,41 @@
       width: 100%;
       border-radius: 8px;
       cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .galeria .grid img:hover {
+      transform: scale(1.02);
     }
 
-    /* Widget BIM / Potree */
+    /* =====================
+       LIGHTBOX
+       ===================== */
+    #visor, #visor-plano {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    #visor img, #visor-plano img {
+      max-width: 80%;
+      max-height: 80%;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      animation: zoomIn 0.3s ease;
+    }
+
+    @keyframes zoomIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    /* =====================
+       WIDGET BIM
+       ===================== */
     #widget-bim {
       background: rgba(30,30,30,0.95);
       padding: 10px;
@@ -143,38 +244,6 @@
       box-shadow: 0 0 8px rgba(0,0,0,0.3);
       position: relative;
       overflow: hidden;
-    }
-
-    #widget-bim h3 {
-      text-align: left;
-      margin-top: 0;
-      color: #eee;
-    }
-
-    .tabs-bim {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
-
-    .tabs-bim button {
-      background: #333;
-      color: #eee;
-      border: none;
-      border-radius: 6px;
-      padding: 6px 10px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .tabs-bim button:hover {
-      background: #555;
-    }
-
-    .tabs-bim button.active {
-      background: #2d89ef;
-      color: #fff;
     }
 
     .bim-controls {
@@ -191,32 +260,48 @@
       padding: 5px 10px;
       border-radius: 6px;
       cursor: pointer;
-      transition: 0.3s;
+      transition: background 0.3s;
     }
 
     .bim-controls button:hover {
       background: #666;
     }
+
+    /* =====================
+       RESPONSIVE
+       ===================== */
+    @media (max-width: 900px) {
+      .content {
+        flex-direction: column;
+        height: auto;
+      }
+      .main, .sidebar {
+        width: 100%;
+        height: auto;
+      }
+      .sidebar {
+        max-height: none;
+      }
+    }
   </style>
 </head>
 
 <body>
-  <div class="main">
-    <iframe src="torres-santa-catalina/app-files/index.html" width="100%" height="100%" frameborder="0"></iframe>
-  </div>
+  <!-- 🔹 Encabezado -->
+  <header>
+    <img src="imagenes/logo.png" alt="Logo Torres Santa Catalina">
+  </header>
 
-  <div class="sidebar">
-     <!-- === Widget: Modelo 3D / Nube de puntos === -->
-    <div class="widget" id="widget-bim">
-      <h3>Modelado 3D</h3>
+  <div class="content">
+    <!-- 🎥 Recorrido principal -->
+    <div class="main">
+      <iframe src="torres-santa-catalina/app-files/index.html"></iframe>
+    </div>
 
-     <!--<div class="tabs-bim">
-        <button id="btnBIM" class="active" onclick="mostrarBIM()">🧱 Modelo BIM</button>
-        <button id="btnNube" onclick="mostrarNube()">☁️ Nube de puntos</button>
-      </div>-->
-
-      <!-- Modelo BIM -->
-      <div id="contenedor-bim" style="display:block;">
+    <!-- 📊 Panel lateral -->
+    <div class="sidebar">
+      <div class="widget" id="widget-bim">
+        <h3>Modelado 3D</h3>
         <model-viewer id="bimModel"
                       src="static/models/casa.glb"
                       alt="Modelo BIM de la casa"
@@ -228,111 +313,63 @@
                       interaction-prompt="none"
                       style="width:100%; height:300px; border-radius:12px; background-color:#222;">
         </model-viewer>
-
         <div class="bim-controls">
           <button onclick="toggleFullScreen()">⛶ Pantalla completa</button>
         </div>
       </div>
 
-           <!-- Nube de puntos Potree 
-      <div id="contenedor-nube" style="display:none;">
-        <iframe src="static/potree/Mirador_Ago2025.html"
-                width="100%"
-                height="300"
-                frameborder="0"
-                style="border-radius:12px; background:#000;">
-        </iframe>
-        <div class="bim-controls">
-          <button onclick="window.open('static/potree/Mirador_Ago2025.html','_blank')">
-            🌐 Ver en pantalla completa
-          </button>
+      <div class="widget plano">
+        <h2>Plano de la Casa</h2>
+        <img src="imagenes/plano_casa_pb.jpg" alt="Planta baja" onclick="abrirPlano(this)">
+      </div>
+
+      <div id="visor-plano" onclick="cerrarPlano()">
+        <img id="visor-plano-img">
+      </div>
+
+      <div class="widget ficha">
+        <h2>Ficha Técnica</h2>
+        <table>
+          <tr><td>🏠 Construcción:</td><td>71.30 m²</td></tr>
+          <tr><td>🌳 Área balcón:</td><td>5.79 m²</td></tr>
+          <tr><td>🛏 Habitaciones:</td><td>3</td></tr>
+          <tr><td>🚽 Baños:</td><td>2</td></tr>
+          <tr><td>🚗 Parqueaderos:</td><td>1</td></tr>
+          <tr><td>📅 Año:</td><td>2024</td></tr>
+        </table>
+      </div>
+
+      <div class="widget lugares">
+        <h2>Lugares Cercanos</h2>
+        <ul>
+          <li>🛒 Supermercado — <strong>5 min en auto</strong></li>
+          <li>🏫 Escuela — <strong>3 min caminando</strong></li>
+          <li>🏥 Hospital — <strong>7 min en auto</strong></li>
+          <li>🌳 Parque — <strong>4 min caminando</strong></li>
+        </ul>
+        <button class="btn-vermas" onclick="window.location.href='widget-poi/index.html'">Ver todos los lugares cercanos</button>
+      </div>
+
+      <div class="widget galeria">
+        <h2>Galería de Fotos</h2>
+        <div class="grid">
+          <img src="imagenes/foto1.jpg" alt="Foto 1" onclick="abrir(this)">
+          <img src="imagenes/foto2.jpg" alt="Foto 2" onclick="abrir(this)">
         </div>
-      </div> -->
+      </div>
 
-
-    </div>
-
-      <!-- Plano -->
-    <div class="widget plano">
-      <h2>Plano de la Casa</h2>
-      <img src="imagenes/plano_casa_pb.jpg" alt="Planta baja" onclick="abrirPlano(this)">
-    </div>
-
-    <div id="visor-plano" onclick="cerrarPlano()">
-      <img id="visor-plano-img">
-    </div>
-
-    <!-- Ficha técnica -->
-    <div class="widget ficha">
-      <h2>Ficha Técnica</h2>
-      <table>
-        <tr><td>🏠 Construcción:</td><td>71.30 m²</td></tr>
-        <tr><td>🌳 Area balcon:</td><td>5.79 m²</td></tr>
-        <tr><td>🛏 Habitaciones:</td><td>3</td></tr>
-        <tr><td>🚽 Baños:</td><td>2</td></tr>
-        <tr><td>🚗 Parqueaderos:</td><td>1</td></tr>
-        <tr><td>📅 Año:</td><td>2024</td></tr>
-      </table>
-    </div>
-
-    <!-- Lugares cercanos -->
-    <div class="widget lugares">
-      <h2>Lugares Cercanos</h2>
-      <ul>
-        <li>🛒 Supermercado — <strong>5 min en auto</strong></li>
-        <li>🏫 Escuela — <strong>3 min caminando</strong></li>
-        <li>🏥 Hospital — <strong>7 min en auto</strong></li>
-        <li>🌳 Parque — <strong>4 min caminando</strong></li>
-      </ul>
-      <button class="btn-vermas" onclick="window.location.href='widget-poi/index.html'">Ver todos los lugares cercanos</button>
-    </div>
-
-    <!-- Galería -->
-    <div class="widget galeria">
-      <h2>Galería de Fotos</h2>
-      <div class="grid">
-        <img src="imagenes/foto1.jpg" alt="Foto 1" onclick="abrir(this)">
-        <img src="imagenes/foto2.jpg" alt="Foto 2" onclick="abrir(this)">
-        
+      <div id="visor" onclick="cerrar()">
+        <img id="visor-img">
       </div>
     </div>
-
-    <div id="visor" onclick="cerrar()">
-      <img id="visor-img">
-    </div>
-
   </div>
 
-  <!-- Librería model-viewer -->
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-
   <script>
-    function toggleRotation() {
-      const viewer = document.querySelector('#widget-bim model-viewer');
-      viewer.autoRotate = !viewer.autoRotate;
-    }
-
     function toggleFullScreen() {
-      const viewer = document.querySelector('#widget-bim model-viewer');
-      if (!document.fullscreenElement) {
-        viewer.requestFullscreen();
-      } else {
-        document.exitFullscreen();
-      }
-    }
-
-    function mostrarBIM() {
-      document.getElementById('contenedor-bim').style.display = 'block';
-      document.getElementById('contenedor-nube').style.display = 'none';
-      document.getElementById('btnBIM').classList.add('active');
-      document.getElementById('btnNube').classList.remove('active');
-    }
-
-    function mostrarNube() {
-      document.getElementById('contenedor-bim').style.display = 'none';
-      document.getElementById('contenedor-nube').style.display = 'block';
-      document.getElementById('btnNube').classList.add('active');
-      document.getElementById('btnBIM').classList.remove('active');
+      const viewer = document.querySelector('#bimModel');
+      if (!document.fullscreenElement) viewer.requestFullscreen();
+      else document.exitFullscreen();
     }
 
     function abrir(img) {

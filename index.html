@@ -15,7 +15,7 @@
     body, html {
       height: 100%;
       overflow: hidden;
-      transition: opacity 0.4s ease; /* más rápido */
+      transition: transform 0.45s ease; /* transición para el barrido */
     }
 
     /* Fondo */
@@ -46,7 +46,7 @@
       z-index: 2;
       text-align: center;
       color: #fff;
-      animation: fadeIn 1s ease;
+      animation: fadeIn 1.2s ease;
     }
 
     .logo {
@@ -86,7 +86,7 @@
       transform: translateY(-2px);
     }
 
-    /* Animación */
+    /* Animación de entrada */
     @keyframes fadeIn {
       from {opacity: 0; transform: translateY(20px);}
       to {opacity: 1; transform: translateY(0);}
@@ -114,8 +114,8 @@
     const btn = document.querySelector('.btn');
     btn.addEventListener('click', e => {
       e.preventDefault();
-      document.body.style.opacity = '0';
-      setTimeout(() => window.location.href = btn.getAttribute('href'), 400); // duración más corta
+      document.body.style.transform = 'translateX(-100%)';
+      setTimeout(() => window.location.href = btn.getAttribute('href'), 450);
     });
   </script>
 </body>
