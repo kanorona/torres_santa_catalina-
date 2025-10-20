@@ -1,394 +1,247 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Recorrido Virtual - Propiedad</title>
-  <style>
-    :root {
-      --color-primario: #e4943a;
-      --color-secundario: #a05e37;
-      --fondo: #1b1b1b;
-      --panel: #242424;
-      --widget: #2d2d2d;
-      --texto: #ffffff;
-      --texto-secundario: #cfcfcf;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recorrido Virtual - Propiedad</title>
+<style>
+:root{
+  --color-primario:#e4943a;
+  --color-secundario:#a05e37;
+  --fondo:#1b1b1b;
+  --panel:#242424;
+  --widget:#2d2d2d;
+  --texto:#fff;
+  --texto-secundario:#cfcfcf;
+}
+html,body{height:100%;margin:0;font-family:'Poppins',Arial,sans-serif;background:var(--fondo);color:var(--texto);display:flex;flex-direction:column}
 
-    html, body {
-      height: 100%;
-      margin: 0;
-      font-family: 'Poppins', Arial, sans-serif;
-      background: var(--fondo);
-      color: var(--texto);
-      display: flex;
-      flex-direction: column;
-    }
+/* HEADER */
+header{
+  position:fixed;top:0;left:0;width:100%;height:65px;
+  background:rgba(0,0,0,0.6);display:flex;align-items:center;
+  padding:0 20px;z-index:1000;backdrop-filter:blur(6px);
+  box-shadow:0 2px 6px rgba(0,0,0,.4);
+}
+header img{height:42px;margin-right:12px}
+header h1{font-size:18px;color:var(--color-primario);margin:0;font-weight:600;flex:1}
+#btn-menu{
+  display:none;background:none;border:none;color:var(--texto);
+  font-size:28px;cursor:pointer;
+}
 
-    /* 🔹 Encabezado */
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 65px;
-      background: rgba(0, 0, 0, 0.6);
-      display: flex;
-      align-items: center;
-      padding: 0 20px;
-      z-index: 1000;
-      backdrop-filter: blur(6px);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-    }
+/* ESTRUCTURA PRINCIPAL */
+.content{display:flex;flex:1;height:calc(100vh - 65px);margin-top:65px;overflow:hidden}
+.main{flex:3;background:#000;display:flex;align-items:center;justify-content:center}
+.main iframe{width:100%;height:100%;border:none;overflow:hidden}
+.sidebar{
+  flex:1;background:var(--panel);padding:15px;height:100%;overflow-y:auto;
+  scrollbar-width:thin;scrollbar-color:var(--color-primario)#1b1b1b;
+  transition:transform 0.4s ease-in-out;
+}
+.sidebar::-webkit-scrollbar{width:8px}
+.sidebar::-webkit-scrollbar-thumb{background-color:var(--color-primario);border-radius:4px}
 
-    header img {
-      height: 42px;
-      margin-right: 12px;
-    }
+/* Widgets */
+.widget{
+  background:var(--widget);border-radius:12px;padding:15px;margin-bottom:15px;
+  box-shadow:0 4px 10px rgba(0,0,0,.3);transition:transform .3s,box-shadow .3s;
+}
+.widget:hover{transform:translateY(-2px);box-shadow:0 8px 15px rgba(0,0,0,.4)}
+.widget h2,.widget h3{
+  font-size:15px;margin:0 0 10px;color:var(--texto);
+  background:rgba(0,0,0,.4);padding:6px 10px;border-radius:6px;text-transform:uppercase;
+}
 
-    header h1 {
-      font-size: 18px;
-      color: var(--color-primario);
-      letter-spacing: 0.5px;
-      margin: 0;
-      font-weight: 600;
-    }
+/* Imágenes */
+.plano img,.galeria .grid img{
+  width:100%;border-radius:8px;cursor:pointer;transition:transform .3s;
+}
+.plano img:hover,.galeria .grid img:hover{transform:scale(1.01)}
 
-    /* =====================
-       ESTRUCTURA PRINCIPAL
-       ===================== */
-    .content {
-      display: flex;
-      flex: 1;
-      height: calc(100vh - 65px);
-      margin-top: 65px;
-      overflow: hidden;
-    }
+/* Ficha técnica */
+.ficha table{width:100%;border-collapse:collapse;font-size:14px}
+.ficha td{padding:6px 0;border-bottom:1px solid #444}
 
-    .main {
-      flex: 3;
-      background: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+/* Lugares */
+.lugares ul{list-style:none;padding:0;margin:0 0 10px;font-size:14px}
+.lugares li{margin:6px 0;color:var(--texto-secundario)}
+.btn-vermas{
+  width:100%;padding:10px;border:none;border-radius:8px;background:var(--color-primario);
+  color:#fff;font-size:14px;cursor:pointer;transition:background .3s;
+}
+.btn-vermas:hover{background:var(--color-secundario)}
 
-    .main iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      overflow: hidden;
-    }
+/* Galería */
+.galeria .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 
-    .sidebar {
-      flex: 1;
-      background: var(--panel);
-      padding: 15px;
-      height: 100%;
-      overflow-y: auto;
-      scrollbar-width: thin;
-      scrollbar-color: var(--color-primario) #1b1b1b;
-    }
+/* Lightbox */
+#visor,#visor-plano{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);
+  justify-content:center;align-items:center;z-index:9999;
+}
+#visor img,#visor-plano img{
+  max-width:85%;max-height:85%;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.5);
+  animation:zoomIn .3s ease;
+}
+@keyframes zoomIn{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
 
-    .sidebar::-webkit-scrollbar {
-      width: 8px;
-    }
-    .sidebar::-webkit-scrollbar-thumb {
-      background-color: var(--color-primario);
-      border-radius: 4px;
-    }
+/* Widget BIM */
+#widget-bim{background:rgba(30,30,30,.95);padding:10px;border-radius:12px;box-shadow:0 0 8px rgba(0,0,0,.3)}
+.bim-controls{display:flex;justify-content:center;gap:8px;margin-top:6px}
+.bim-controls button{
+  background:#444;color:#fff;border:none;padding:5px 10px;border-radius:6px;
+  cursor:pointer;transition:background .3s;
+}
+.bim-controls button:hover{background:#666}
 
-    /* =====================
-       WIDGETS
-       ===================== */
-    .widget {
-      background: var(--widget);
-      border-radius: 12px;
-      padding: 15px;
-      margin-bottom: 15px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
+/* Modal fullscreen BIM */
+#modal-bim{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);
+  justify-content:center;align-items:center;z-index:10000;
+}
+#modal-bim model-viewer{width:90%;height:80%;border-radius:12px;background:#222}
+#modal-bim button{
+  position:absolute;top:20px;right:25px;background:none;border:none;
+  font-size:26px;color:#fff;cursor:pointer;
+}
 
-    .widget:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 15px rgba(0,0,0,0.4);
-    }
-
-    .widget h2, .widget h3 {
-      font-size: 15px;
-      margin: 0 0 10px 0;
-      color: var(--texto);
-      background: rgba(0, 0, 0, 0.4);
-      padding: 6px 10px;
-      border-radius: 6px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    /* =====================
-       IMÁGENES
-       ===================== */
-    .plano img, .galeria .grid img {
-      width: 100%;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: transform 0.3s ease;
-    }
-
-    .plano img:hover, .galeria .grid img:hover {
-      transform: scale(1.01);
-    }
-
-    /* =====================
-       FICHA TÉCNICA
-       ===================== */
-    .ficha table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 14px;
-    }
-    .ficha td {
-      padding: 6px 0;
-      border-bottom: 1px solid #444;
-    }
-
-    /* =====================
-       LUGARES CERCANOS
-       ===================== */
-    .lugares ul {
-      list-style: none;
-      padding: 0;
-      margin: 0 0 10px 0;
-      font-size: 14px;
-    }
-    .lugares li {
-      margin: 6px 0;
-      color: var(--texto-secundario);
-    }
-
-    .btn-vermas {
-      width: 100%;
-      padding: 10px;
-      border: none;
-      border-radius: 8px;
-      background: var(--color-primario);
-      color: #fff;
-      font-size: 14px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    .btn-vermas:hover {
-      background: var(--color-secundario);
-    }
-
-    /* =====================
-       GALERÍA
-       ===================== */
-    .galeria .grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
-
-    /* =====================
-       LIGHTBOX
-       ===================== */
-    #visor, #visor-plano {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.85);
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-    }
-
-    #visor img, #visor-plano img {
-      max-width: 85%;
-      max-height: 85%;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-      animation: zoomIn 0.3s ease;
-    }
-
-    @keyframes zoomIn {
-      from { transform: scale(0.8); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-
-    /* =====================
-       WIDGET BIM
-       ===================== */
-    #widget-bim {
-      background: rgba(30,30,30,0.95);
-      padding: 10px;
-      border-radius: 12px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.3);
-      overflow: hidden;
-    }
-
-    .bim-controls {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 6px;
-    }
-
-    .bim-controls button {
-      background: #444;
-      color: #fff;
-      border: none;
-      padding: 5px 10px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .bim-controls button:hover {
-      background: #666;
-    }
-
-    /* =====================
-       RESPONSIVE (ajuste horizontal)
-       ===================== */
-    @media (max-width: 900px) {
-      .content {
-        flex-direction: row;
-      }
-
-      /* 🟧 Mantiene diseño de dos columnas */
-      .main {
-        flex: 2;
-      }
-
-      .sidebar {
-        flex: 1;
-        width: 35%;
-        min-width: 220px;
-      }
-
-      header h1 {
-        font-size: 16px;
-      }
-
-      .widget h2, .widget h3 {
-        font-size: 14px;
-      }
-
-      .ficha table td {
-        font-size: 13px;
-      }
-    }
-  </style>
+/* RESPONSIVE */
+@media(max-width:900px){
+  #btn-menu{display:block}
+  .content{flex-direction:row}
+  .sidebar{
+    position:fixed;top:65px;right:0;width:70%;max-width:350px;height:calc(100vh - 65px);
+    transform:translateX(100%);z-index:1200;
+  }
+  .sidebar.active{transform:translateX(0)}
+  /* overlay oscuro */
+  #overlay{
+    display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);
+    z-index:1100;backdrop-filter:blur(2px);
+  }
+  #overlay.show{display:block}
+}
+</style>
 </head>
-
 <body>
-  <header>
-    <img src="imagenes/logo.png" alt="Logo Torres Santa Catalina">
-  </header>
+<header>
+  <img src="imagenes/logo_torres.png" alt="Logo Torres Santa Catalina">
+  <h1>Torres Santa Catalina</h1>
+  <button id="btn-menu">☰</button>
+</header>
 
-  <div class="content">
-    <div class="main">
-      <iframe src="torres-santa-catalina/app-files/index.html"></iframe>
-    </div>
+<div id="overlay"></div>
 
-    <div class="sidebar">
-      <div class="widget" id="widget-bim">
-        <h3>Modelado 3D</h3>
-        <model-viewer id="bimModel"
-                      src="static/models/casa.glb"
-                      alt="Modelo BIM de la casa"
-                      camera-controls
-                      auto-rotate
-                      shadow-intensity="1"
-                      exposure="0.9"
-                      environment-image="neutral"
-                      interaction-prompt="none"
-                      style="width:100%; height:300px; border-radius:12px; background-color:#222;">
-        </model-viewer>
-        <div class="bim-controls">
-          <button id="btnFullScreen">⛶ Pantalla completa</button>
-        </div>
-      </div>
-
-      <div class="widget plano">
-        <h2>Plano de la Casa</h2>
-        <img src="imagenes/plano_casa_pb.jpg" alt="Planta baja" onclick="abrirPlano(this)">
-      </div>
-
-      <div id="visor-plano" onclick="cerrarPlano()">
-        <img id="visor-plano-img">
-      </div>
-
-      <div class="widget ficha">
-        <h2>Ficha Técnica</h2>
-        <table>
-          <tr><td>🏠 Construcción:</td><td>71.30 m²</td></tr>
-          <tr><td>🌳 Área balcón:</td><td>5.79 m²</td></tr>
-          <tr><td>🛏 Habitaciones:</td><td>3</td></tr>
-          <tr><td>🚽 Baños:</td><td>2</td></tr>
-          <tr><td>🚗 Parqueaderos:</td><td>1</td></tr>
-          <tr><td>📅 Año:</td><td>2024</td></tr>
-        </table>
-      </div>
-
-      <div class="widget lugares">
-        <h2>Lugares Cercanos</h2>
-        <ul>
-          <li>🛒 Supermercado — <strong>5 min en auto</strong></li>
-          <li>🏫 Escuela — <strong>3 min caminando</strong></li>
-          <li>🏥 Hospital — <strong>7 min en auto</strong></li>
-          <li>🌳 Parque — <strong>4 min caminando</strong></li>
-        </ul>
-        <button class="btn-vermas" onclick="window.location.href='widget-poi/index.html'">Ver todos los lugares cercanos</button>
-      </div>
-
-      <div class="widget galeria">
-        <h2>Galería de Fotos</h2>
-        <div class="grid">
-          <img src="imagenes/foto1.jpg" alt="Foto 1" onclick="abrir(this)">
-          <img src="imagenes/foto2.jpg" alt="Foto 2" onclick="abrir(this)">
-        </div>
-      </div>
-
-      <div id="visor" onclick="cerrar()">
-        <img id="visor-img">
-      </div>
-    </div>
+<div class="content">
+  <div class="main">
+    <iframe src="torres-santa-catalina/app-files/index.html"></iframe>
   </div>
 
-  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-  <script>
-    // ✅ Modo fullscreen compatible móvil + escritorio
-    document.getElementById('btnFullScreen').addEventListener('click', function () {
-      const viewer = document.querySelector('#bimModel');
-      if (viewer.requestFullscreen) {
-        viewer.requestFullscreen();
-      } else if (viewer.webkitRequestFullscreen) { // Safari / iOS
-        viewer.webkitRequestFullscreen();
-      } else if (viewer.msRequestFullscreen) {
-        viewer.msRequestFullscreen();
-      }
-    });
+  <div class="sidebar" id="sidebar">
+    <div class="widget" id="widget-bim">
+      <h3>Modelado 3D</h3>
+      <model-viewer id="bimModel"
+                    src="static/models/casa.glb"
+                    alt="Modelo BIM de la casa"
+                    camera-controls
+                    auto-rotate
+                    shadow-intensity="1"
+                    exposure="0.9"
+                    environment-image="neutral"
+                    interaction-prompt="none"
+                    style="width:100%;height:300px;border-radius:12px;background-color:#222;">
+      </model-viewer>
+      <div class="bim-controls">
+        <button id="btnExpandirBIM">⛶ Pantalla completa</button>
+      </div>
+    </div>
 
-    function abrir(img) {
-      document.getElementById('visor').style.display = 'flex';
-      document.getElementById('visor-img').src = img.src;
-    }
+    <div class="widget plano">
+      <h2>Plano de la Casa</h2>
+      <img src="imagenes/plano_casa_pb.jpg" alt="Planta baja" onclick="abrirPlano(this)">
+    </div>
 
-    function cerrar() {
-      document.getElementById('visor').style.display = 'none';
-    }
+    <div id="visor-plano" onclick="cerrarPlano()">
+      <img id="visor-plano-img">
+    </div>
 
-    function abrirPlano(img) {
-      document.getElementById('visor-plano').style.display = 'flex';
-      document.getElementById('visor-plano-img').src = img.src;
-    }
+    <div class="widget ficha">
+      <h2>Ficha Técnica</h2>
+      <table>
+        <tr><td>🏠 Construcción:</td><td>71.30 m²</td></tr>
+        <tr><td>🌳 Área balcón:</td><td>5.79 m²</td></tr>
+        <tr><td>🛏 Habitaciones:</td><td>3</td></tr>
+        <tr><td>🚽 Baños:</td><td>2</td></tr>
+        <tr><td>🚗 Parqueaderos:</td><td>1</td></tr>
+        <tr><td>📅 Año:</td><td>2024</td></tr>
+      </table>
+    </div>
 
-    function cerrarPlano() {
-      document.getElementById('visor-plano').style.display = 'none';
-    }
-  </script>
+    <div class="widget lugares">
+      <h2>Lugares Cercanos</h2>
+      <ul>
+        <li>🛒 Supermercado — <strong>5 min en auto</strong></li>
+        <li>🏫 Escuela — <strong>3 min caminando</strong></li>
+        <li>🏥 Hospital — <strong>7 min en auto</strong></li>
+        <li>🌳 Parque — <strong>4 min caminando</strong></li>
+      </ul>
+      <button class="btn-vermas" onclick="window.location.href='widget-poi/index.html'">Ver todos los lugares cercanos</button>
+    </div>
+
+    <div class="widget galeria">
+      <h2>Galería de Fotos</h2>
+      <div class="grid">
+        <img src="imagenes/foto1.jpg" alt="Foto 1" onclick="abrir(this)">
+        <img src="imagenes/foto2.jpg" alt="Foto 2" onclick="abrir(this)">
+      </div>
+    </div>
+
+    <div id="visor" onclick="cerrar()">
+      <img id="visor-img">
+    </div>
+  </div>
+</div>
+
+<!-- Modal BIM -->
+<div id="modal-bim">
+  <button onclick="cerrarModalBIM()">✖</button>
+  <model-viewer src="static/models/casa.glb" camera-controls auto-rotate
+                shadow-intensity="1" exposure="0.9"
+                environment-image="neutral"
+                style="width:100%;height:100%;border-radius:12px;background:#222;">
+  </model-viewer>
+</div>
+
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+<script>
+const sidebar=document.getElementById('sidebar');
+const overlay=document.getElementById('overlay');
+const menuBtn=document.getElementById('btn-menu');
+
+menuBtn.addEventListener('click',()=>{
+  sidebar.classList.toggle('active');
+  overlay.classList.toggle('show');
+});
+overlay.addEventListener('click',()=>{
+  sidebar.classList.remove('active');
+  overlay.classList.remove('show');
+});
+
+/* Modal para modelo BIM */
+const modalBIM=document.getElementById('modal-bim');
+document.getElementById('btnExpandirBIM').addEventListener('click',()=>{
+  modalBIM.style.display='flex';
+});
+function cerrarModalBIM(){modalBIM.style.display='none';}
+
+/* Lightbox galería y plano */
+function abrir(img){document.getElementById('visor').style.display='flex';
+  document.getElementById('visor-img').src=img.src;}
+function cerrar(){document.getElementById('visor').style.display='none';}
+function abrirPlano(img){document.getElementById('visor-plano').style.display='flex';
+  document.getElementById('visor-plano-img').src=img.src;}
+function cerrarPlano(){document.getElementById('visor-plano').style.display='none';}
+</script>
 </body>
 </html>

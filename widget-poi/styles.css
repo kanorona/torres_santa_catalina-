@@ -119,7 +119,7 @@ html, body {
   display: none;
   position: absolute;
   top: 72px;              /* lo bajamos debajo de la barra */
-  right: 20px;            /* lo movemos al extremo derecho */
+  left: 20px;            /* lo movemos al extremo derecho */
   background: rgba(0, 0, 0, 0.6);
   color: white;
   border: none;
