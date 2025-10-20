@@ -78,8 +78,11 @@
       { cubeMapPreviewUrl: urlPrefix + "/" + data.id + "/preview.jpg" });
     var geometry = new Marzipano.CubeGeometry(data.levels);
 
-    var limiter = Marzipano.RectilinearView.limit.traditional(data.faceSize, 100*Math.PI/180, 120*Math.PI/180);
+        // 🔧 Ampliamos los límites de zoom para permitir acercamientos más profundos
+    var maxResolution = data.faceSize * 4; // antes solo era faceSize
+    var limiter = Marzipano.RectilinearView.limit.traditional(maxResolution, 100*Math.PI/180, 120*Math.PI/180);
     var view = new Marzipano.RectilinearView(data.initialViewParameters, limiter);
+
 
     var scene = viewer.createScene({
       source: source,
