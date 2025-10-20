@@ -33,27 +33,14 @@ header h1{
   font-size:18px;color:var(--color-primario);
   margin:0;font-weight:600;flex:1;
 }
-#btn-menu {
-  display: none;
-  background: none;
-  border: none;
-  color: var(--texto);
-  font-size: 30px;
-  cursor: pointer;
-  position: absolute;
-  right: 25px;          /* 🔹 Más separación del borde derecho */
-  top: 50%;
-  transform: translateY(-50%);
-  padding: 10px 12px;   /* 🔹 Aumenta el área táctil */
-  border-radius: 8px;   /* 🔹 Bordes suaves */
-  z-index: 1500;
-  transition: background 0.3s ease;
+#btn-menu{
+  display:none;background:none;border:none;color:var(--texto);
+  font-size:30px;cursor:pointer;position:absolute;
+  right:25px;top:50%;transform:translateY(-50%);
+  padding:10px 12px;border-radius:8px;z-index:1500;
+  transition:background 0.3s ease;
 }
-
-#btn-menu:hover {
-  background: rgba(255, 255, 255, 0.1); /* 🔹 Pequeño feedback visual */
-}
-
+#btn-menu:hover{background:rgba(255,255,255,0.1)}
 
 /* ESTRUCTURA PRINCIPAL */
 .content{
@@ -117,17 +104,23 @@ header h1{
 /* Galería */
 .galeria .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 
-/* Lightbox */
+/* Lightbox global */
 #visor,#visor-plano{
-  display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);
-  justify-content:center;align-items:center;z-index:9999;
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,0.9);
+  justify-content:center;align-items:center;
+  z-index:30000;
 }
 #visor img,#visor-plano img{
-  max-width:85%;max-height:85%;border-radius:12px;
-  box-shadow:0 4px 20px rgba(0,0,0,.5);
-  animation:zoomIn .3s ease;
+  max-width:90%;max-height:90%;
+  border-radius:12px;object-fit:contain;
+  box-shadow:0 0 20px rgba(0,0,0,0.6);
+  animation:zoomIn 0.25s ease;
 }
-@keyframes zoomIn{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes zoomIn{
+  from{transform:scale(0.85);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
 
 /* Widget BIM */
 #widget-bim{
@@ -145,52 +138,33 @@ header h1{
 .bim-controls button:hover{background:#666}
 
 /* Modal fullscreen BIM */
-#modal-bim {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.96);
-  justify-content: center;
-  align-items: center;
-  z-index: 10000;
+#modal-bim{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.96);
+  justify-content:center;align-items:center;
+  z-index:10000;
 }
-#modal-bim model-viewer {
-  width: 90%;
-  height: 80%;
-  border-radius: 12px;
-  background: #222;
-  z-index: 10001;
+#modal-bim model-viewer{
+  width:90%;height:80%;
+  border-radius:12px;background:#222;
+  z-index:10001;
 }
-#btnCerrarBIM {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: rgba(0, 0, 0, 0.65);
-  border: none;
-  color: #fff;
-  cursor: pointer;
-  border-radius: 50%;
-  width: 52px;
-  height: 52px;
-  font-size: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
-  z-index: 20000; /* 👈 fuerza visibilidad por encima del model-viewer */
+#btnCerrarBIM{
+  position:absolute;top:20px;right:20px;
+  background:rgba(0,0,0,0.65);
+  border:none;color:#fff;cursor:pointer;
+  border-radius:50%;width:52px;height:52px;
+  font-size:28px;display:flex;align-items:center;
+  justify-content:center;
+  box-shadow:0 0 10px rgba(0,0,0,0.6);
+  transition:background .3s;z-index:20000;
 }
-#btnCerrarBIM:hover {
-  background: rgba(255, 255, 255, 0.15);
-}
-#btnCerrarBIM span {
-  position: absolute;
-  bottom: -22px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 13px;
-  color: #fff;
-  opacity: 0.9;
-  text-shadow: 0 0 4px #000;
+#btnCerrarBIM:hover{background:rgba(255,255,255,0.15)}
+#btnCerrarBIM span{
+  position:absolute;bottom:-22px;left:50%;
+  transform:translateX(-50%);
+  font-size:13px;color:#fff;opacity:0.9;
+  text-shadow:0 0 4px #000;
 }
 
 /* RESPONSIVE */
@@ -204,7 +178,6 @@ header h1{
     z-index:1200;
   }
   .sidebar.active{transform:translateX(0)}
-  /* overlay oscuro */
   #overlay{
     display:none;position:fixed;inset:0;
     background:rgba(0,0,0,.4);
@@ -251,10 +224,6 @@ header h1{
       <img src="imagenes/plano_casa_pb.jpg" alt="Planta baja" onclick="abrirPlano(this)">
     </div>
 
-    <div id="visor-plano" onclick="cerrarPlano()">
-      <img id="visor-plano-img">
-    </div>
-
     <div class="widget ficha">
       <h2>Ficha Técnica</h2>
       <table>
@@ -285,21 +254,22 @@ header h1{
         <img src="imagenes/foto2.jpg" alt="Foto 2" onclick="abrir(this)">
       </div>
     </div>
-
-    <div id="visor" onclick="cerrar()">
-      <img id="visor-img">
-    </div>
   </div>
+</div>
+
+<!-- Lightbox globales -->
+<div id="visor" onclick="cerrar()">
+  <img id="visor-img">
+</div>
+<div id="visor-plano" onclick="cerrarPlano()">
+  <img id="visor-plano-img">
 </div>
 
 <!-- Modal BIM -->
 <div id="modal-bim">
   <button id="btnCerrarBIM">✖<span>Cerrar</span></button>
-  <model-viewer src="static/models/casa.glb"
-                camera-controls
-                auto-rotate
-                shadow-intensity="1"
-                exposure="0.9"
+  <model-viewer src="static/models/casa.glb" camera-controls auto-rotate
+                shadow-intensity="1" exposure="0.9"
                 environment-image="neutral"
                 style="width:100%;height:100%;border-radius:12px;background:#222;">
   </model-viewer>
@@ -307,6 +277,7 @@ header h1{
 
 <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 <script>
+/* ==================== PANEL LATERAL ==================== */
 const sidebar=document.getElementById('sidebar');
 const overlay=document.getElementById('overlay');
 const menuBtn=document.getElementById('btn-menu');
@@ -319,29 +290,28 @@ overlay.addEventListener('click',()=>{
   overlay.classList.remove('show');
 });
 
-  /* Modal BIM */
-  document.addEventListener('DOMContentLoaded', () => {
-    const modalBIM = document.getElementById('modal-bim');
-    const btnExpandirBIM = document.getElementById('btnExpandirBIM');
-    const btnCerrarBIM = document.getElementById('btnCerrarBIM');
+/* ==================== MODAL BIM ==================== */
+document.addEventListener('DOMContentLoaded', () => {
+  const modalBIM = document.getElementById('modal-bim');
+  const btnExpandirBIM = document.getElementById('btnExpandirBIM');
+  const btnCerrarBIM = document.getElementById('btnCerrarBIM');
 
-    if (btnExpandirBIM && modalBIM) {
-      btnExpandirBIM.addEventListener('click', () => {
-        modalBIM.style.display = 'flex';
-        document.body.style.overflow = 'hidden'; // 🔒 evita desplazamiento del fondo
-      });
-    }
+  if (btnExpandirBIM && modalBIM) {
+    btnExpandirBIM.addEventListener('click', () => {
+      modalBIM.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    });
+  }
 
-    if (btnCerrarBIM && modalBIM) {
-      btnCerrarBIM.addEventListener('click', () => {
-        modalBIM.style.display = 'none';
-        document.body.style.overflow = 'auto'; // 🔓 restaura scroll del fondo
-      });
-    }
-  });
+  if (btnCerrarBIM && modalBIM) {
+    btnCerrarBIM.addEventListener('click', () => {
+      modalBIM.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    });
+  }
+});
 
-
-/* Lightbox galería y plano */
+/* ==================== LIGHTBOX ==================== */
 function abrir(img){
   document.getElementById('visor').style.display='flex';
   document.getElementById('visor-img').src=img.src;
