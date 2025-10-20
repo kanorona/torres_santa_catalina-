@@ -6,33 +6,39 @@
     { id: 'school', label: 'Escuelas/Colegios', tags: [{ k: 'amenity', v: 'school' }] },
     { id: 'university', label: 'Universidades', tags: [{ k: 'amenity', v: 'university' }] },
     { id: 'park', label: 'Parques', tags: [{ k: 'leisure', v: 'park' }] },
-    { id: 'mall', label: 'Centros comerciales', tags: [{ k: 'shop', v: 'mall' }] },
     { id: 'hospital', label: 'Hospitales', tags: [{ k: 'amenity', v: 'hospital' }] },
     { id: 'clinic', label: 'Clínicas', tags: [{ k: 'amenity', v: 'clinic' }] },
     { id: 'pharmacy', label: 'Farmacias', tags: [{ k: 'amenity', v: 'pharmacy' }] },
-    { id: 'supermarket', label: 'Super/Tiendas', tags: [{ k: 'shop', v: 'supermarket' }, { k: 'shop', v: 'convenience' }] },
+    { id: 'supermarket', label: 'Supermercados', tags: [{ k: 'shop', v: 'supermarket' }] },
     { id: 'bus_stop', label: 'Paradas de bus', tags: [{ k: 'highway', v: 'bus_stop' }] },
+    { id: 'fuel', label: 'Gasolineras', tags: [{ k: 'amenity', v: 'fuel' }] },
+
   ];
 
   const COLORS = {
     school: '#facc15',
-    university: '#1d4ed8',
+    university: '#473909ff',
     park: '#4ade80',
-    mall: '#f472b6',
     hospital: '#f87171',
     clinic: '#fb923c',
     pharmacy: '#a78bfa',
     supermarket: '#34d399',
-    bus_stop: '#2563eb'
+    fuel: '#12b5b8ff',
+    bus_stop: '#0000ffff'
+
   };
+
+    // Diccionario de contadores dinámicos
+  let categoryCounts = Object.fromEntries(Object.keys(COLORS).map(k => [k, 0]));
+
 
   // =========================
   //  Estado inicial
   // =========================
   const center = { lat: -0.13226, lng: -78.47046 };  
   const homeLabel = "Torres Santa Catalina";
-  const FIXED_RADIUS = 500; // radio fijo en metros
-  let activeCats = CATEGORIES.map(c => c.id);
+  const FIXED_RADIUS = 1500; // radio fijo en metros
+  let activeCats = ["bus_stop"]; // ninguna categoría activa al inicio
 
   // =========================
   //  Utilidades
@@ -175,6 +181,9 @@
     const ll = L.latLng(center.lat, center.lng);
     const r = FIXED_RADIUS;
     resultsLayer.clearLayers();
+    // Reiniciar contadores
+    Object.keys(categoryCounts).forEach(k => categoryCounts[k] = 0);
+
 
     if (searchCircle) map.removeLayer(searchCircle);
     searchCircle = L.circle(ll, {
@@ -206,11 +215,30 @@
         const catId = guessCategory(el.tags || {});
         if (!activeCats.includes(catId)) continue;
         const dist = haversine(ll.lat, ll.lng, y, x);
-
+        
+        categoryCounts[catId] = (categoryCounts[catId] || 0) + 1;
         L.marker([y, x], { icon: iconFor(catId) })
           .bindPopup(`<b>${name}</b><br>${categoryLabel(catId)}<br>${dist.toFixed(0)} m`)
           .addTo(resultsLayer);
+
       }
+
+              // === Actualizar contadores y colores en la interfaz ===
+        document.querySelectorAll('.categories label').forEach(label => {
+          const cb = label.querySelector('input[type="checkbox"]');
+          const span = label.querySelector('span');
+          const id = cb.value;
+          const count = categoryCounts[id] || 0;
+
+          // Actualizar el texto con el número de resultados
+          span.textContent = `${categoryLabel(id)} (${count})`;
+
+          // Actualizar el color del cuadro para que coincida con el marcador
+          const color = COLORS[id] || '#ccc';
+          span.style.setProperty('--box-color', color);
+        });
+
+
     } catch (err) {
       console.error("Error Overpass:", err);
     }

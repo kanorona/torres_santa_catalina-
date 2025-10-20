@@ -98,6 +98,20 @@ html, body {
   transition: background 0.2s;
 }
 
+.categories label span::before {
+  content: "";
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+  margin-right: 8px;
+  vertical-align: middle;
+  background: var(--box-color, #888); /* color asignado dinámicamente */
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, .25) inset;
+  transition: background 0.3s ease;
+}
+
+
 .categories label:hover {
   background: rgba(255, 255, 255, 0.05);
 }
@@ -154,4 +168,26 @@ html, body {
 
 .leaflet-control-zoom {
   display: none !important;
+}
+
+.back-btn {
+  background: var(--accent);        /* color dorado del tema (#D99940) */
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.back-btn:hover {
+  background: #b9812e;             /* un poco más oscuro al pasar el mouse */
+}
+
+@media (max-width: 768px) {
+  .back-btn {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
 }
